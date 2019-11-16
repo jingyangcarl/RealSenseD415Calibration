@@ -1,5 +1,8 @@
 #include <librealsense2/rs.hpp>
 using rs2::context;
+using rs2::pipeline;
+using rs2::config;
+using rs2::depth_sensor;
 
 #include <iostream>
 #include <map>
@@ -8,9 +11,15 @@ using std::endl;
 using std::map;
 using std::string;
 using std::pair;
+using std::vector;
+
+#include "Window.h"
 
 int main() {
 
+	window app(640, 480, "Multi-Camera");
+
+	// RealSense D415 Asic Serial Number - Index Number
 	map<string, int> serialIndexMap;
 	serialIndexMap.insert(pair<string, int>("822213022021", 1));
 	serialIndexMap.insert(pair<string, int>("822213021828", 2));
@@ -33,7 +42,7 @@ int main() {
 
 	// present the basic device information
 	cout << "--- " << context.query_devices().size() << " Camera Detected ---" << endl;
-	for (auto device : context.query_devices()) {
+	for (auto&& device : context.query_devices()) {
 		cout << "Camera Info Name: " << device.get_info(rs2_camera_info::RS2_CAMERA_INFO_NAME) << endl;
 		cout << "Camera Info Asic Serial Number: " << device.get_info(rs2_camera_info::RS2_CAMERA_INFO_ASIC_SERIAL_NUMBER) << endl;
 		cout << "Camera Info Tag Number: " << serialIndexMap.at(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_ASIC_SERIAL_NUMBER)) << endl;
@@ -52,8 +61,36 @@ int main() {
 		}
 	}
 
-	for (auto device : context.query_devices()) {
+	// start a streaming pipe per each connected device
+	map<int, float> indexDepthScaleMap;
+	vector<pipeline> pipelines;
+	for (auto&& device : context.query_devices()) {
+
+		// initialization
+		pipeline pipeline(context);
+		config config;
+		string asicSerialNumber = device.get_info(rs2_camera_info::RS2_CAMERA_INFO_ASIC_SERIAL_NUMBER);
+
+		// get depth scale
+		float depthScale = device.query_sensors().front().as<depth_sensor>().get_depth_scale();
+		int index = serialIndexMap.at(asicSerialNumber);
+		indexDepthScaleMap.insert(pair<int, float>(index, depthScale));
+
+		// set configuration
+		int width = 640;
+		int height = 480;
+		int frameRate = 30;
+		//config.enable_stream(RS2_STREAM_COLOR, width, height, RS2_FORMAT_RGB8, frameRate);
+		//config.enable_stream(RS2_STREAM_DEPTH, width, height, RS2_FORMAT_Z16, frameRate);
+		config.enable_device(asicSerialNumber);
+
+		// start the pipeline
+		pipeline.start(config);
+		pipelines.push_back(pipeline);
+		cout << "Start pipeline of camera " << serialIndexMap.at(asicSerialNumber) << endl;
 
 	}
+
+	
 
 }
