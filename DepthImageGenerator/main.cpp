@@ -20,7 +20,11 @@ using std::vector;
 
 int main() {
 
-	window app(1280, 960, "Multi-Camera");
+	int width = 640;
+	int height = 480;
+	int frameRate = 30;
+	int sizeFactor = 3;
+	window app(width * sizeFactor, height * sizeFactor, "Multi-Camera");
 
 	// RealSense D415 Asic Serial Number - Index Number
 	map<string, int> asicSerialIndexMap;
@@ -39,6 +43,7 @@ int main() {
 	asicSerialIndexMap.insert(pair<string, int>("822213022092", 13));
 	asicSerialIndexMap.insert(pair<string, int>("821413021123", 14));
 
+	// RealSense D415 Seerial Number - Index Number
 	map<string, int> serialIndexMap;
 	serialIndexMap.insert(pair<string, int>("821212061662", 1));
 	serialIndexMap.insert(pair<string, int>("821312061467", 2));
@@ -86,12 +91,11 @@ int main() {
 	vector<pipeline> pipelines;
 	for (auto&& device : context.query_devices()) {
 
-
 		// initialization
 		pipeline pipeline(context);
 		config config;
 		string serialNumber = device.get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER);
-		cout << "Initialize camera " << serialIndexMap.at(serialNumber) << " [" << serialNumber << "]" << endl;
+		cout << "Initialize camera " << serialIndexMap.at(serialNumber) << endl;
 
 		// get depth scale
 		float depthScale = device.query_sensors().front().as<depth_sensor>().get_depth_scale();
@@ -99,15 +103,13 @@ int main() {
 		indexDepthScaleMap.insert(pair<int, float>(index, depthScale));
 
 		// set configuration
-		int width = 640;
-		int height = 480;
-		int frameRate = 30;
 		//config.enable_stream(RS2_STREAM_COLOR, width, height, RS2_FORMAT_RGB8, frameRate);
 		//config.enable_stream(RS2_STREAM_DEPTH, width, height, RS2_FORMAT_Z16, frameRate);
 		config.enable_device(serialNumber);
 
 		// start the pipeline
 		pipeline.start(config);
+		cout << "Camera [" << serialNumber << "] streaming pipeline starts..." << endl;
 		pipelines.push_back(pipeline);
 		colorizers[serialIndexMap[serialNumber]] = colorizer();
 	}
@@ -116,26 +118,26 @@ int main() {
 	map<int, frame> render_frames;
 	while (app) {
 
-		// collect the new frames from all the connected devices
-		vector<frame> frames;
+		// collect the new new_frames from all the connected devices
+		vector<frame> new_frames;
 		for (auto&& pipeline : pipelines) {
 			frameset frameset;
 			if (pipeline.poll_for_frames(&frameset)) {
 				for (const frame& frame : frameset) {
-					frames.push_back(frame);
+					new_frames.push_back(frame);
 				}
 			}
 		}
 
-		// convert the newly-arrived frames to render-friendly format
-		for (const auto& frame : frames) {
+		// convert the newly-arrived new_frames to render-friendly format
+		for (const auto& frame : new_frames) {
 			// get the serical number of the current frame's device
-			auto asicSerialNumber = rs2::sensor_from_frame(frame)->get_info(RS2_CAMERA_INFO_SERIAL_NUMBER);
+			auto serialNumber = rs2::sensor_from_frame(frame)->get_info(RS2_CAMERA_INFO_SERIAL_NUMBER);
 			// apply the colorizer of the matching device and store the colorzied frame
-			render_frames[frame.get_profile().unique_id()] = colorizers[serialIndexMap[asicSerialNumber]].process(frame);
+			render_frames[frame.get_profile().unique_id()] = colorizers[serialIndexMap[serialNumber]].process(frame);
 		}
 
-		// present all the collected frames with Opengl mosiaic
+		// present all the collected new_frames with Opengl mosiaic
 		app.show(render_frames);
 
 	}
