@@ -47,7 +47,7 @@ void writeCSV(std::string filename, cv::Mat m)
 	myfile.close();
 }
 
-int main() try
+int DepthImageGen() try
 {
 	context ctx;
 	//map<string, pipeline> pipes;

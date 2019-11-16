@@ -18,5 +18,8 @@
     <ClCompile Include="..\RealSenseD415Calibration\DepthImageGen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
