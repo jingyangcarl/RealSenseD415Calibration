@@ -9,6 +9,7 @@ using rs2::colorizer;
 
 #include <iostream>
 #include <map>
+#include <string>
 using std::cout;
 using std::endl;
 using std::map;
@@ -78,9 +79,9 @@ int main() {
 			return -1;
 		}
 
-		// Detect if USB Type Descriptor is 3.2
-		if (strcmp(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_USB_TYPE_DESCRIPTOR), "3.2") != 0) {
-			cout << "Please check USB Port, it may not be USB 3.2" << endl;
+		// Detect if USB Type Descriptor is 3.0 or higher version
+		if (atof(device.get_info(rs2_camera_info::RS2_CAMERA_INFO_USB_TYPE_DESCRIPTOR)) < 3.0) {
+			cout << "Please check USB Port, it may not be USB 3.0 or higher version" << endl;
 			return -1;
 		}
 	}
