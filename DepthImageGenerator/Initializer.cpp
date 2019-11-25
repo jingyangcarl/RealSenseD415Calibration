@@ -1,5 +1,15 @@
 #include "Initializer.h"
 
+/*
+Description:
+This function is a contructor;
+Input:
+@ context& context: a reference to realsense context;
+@ map<string, int>& asicSerialIndexMap: a reference to camera asic serial index map;
+@ map<string, int>& serialIndexMap: a reference to camera serial index map;
+@ map<int, colorizer>& colorizers: a reference to colorizers;
+@ vector<pipeline>& pipelines: a reference to realsense pipelines;
+*/
 Initializer::Initializer(rs2::context& context, map<string, int>& asicSerialIndexMap, map<string, int>& serialIndexMap, map<int, colorizer>& colorizers, vector<pipeline>& pipelines) :
 	context(context), asicSerialIndexMap(asicSerialIndexMap), serialIndexMap(serialIndexMap), colorizers(colorizers), pipelines(pipelines) {
 }

@@ -15,7 +15,7 @@ using namespace cv;
 #include "Window.h"
 #include "Initializer.h"
 
-int main() {
+int main() try {
 
 	// get current RealSense context
 	rs2::context context;
@@ -120,4 +120,8 @@ int main() {
 
 	}
 
+}
+catch (const rs2::error & e) {
+	std::cerr << e.what() << std::endl;
+	return EXIT_FAILURE;
 }

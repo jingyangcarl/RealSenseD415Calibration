@@ -22,4 +22,3 @@ private:
 	map<int, colorizer>& colorizers;
 	vector<pipeline>& pipelines;
 };
-
