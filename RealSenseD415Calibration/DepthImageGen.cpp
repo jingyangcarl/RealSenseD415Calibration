@@ -22,7 +22,7 @@
 #include <string>
 #include <fstream>
 #include <librealsense2/rs.hpp>
-#include <librealsense2/rs_advanced_mode.hpp>
+#include <C:/Program Files (x86)/Intel RealSense SDK 2.0/include/librealsense2/rs_advanced_mode.hpp>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -47,7 +47,7 @@ void writeCSV(std::string filename, cv::Mat m)
 	myfile.close();
 }
 
-int DepthImageGen() try
+int main() try
 {
 	context ctx;
 	//map<string, pipeline> pipes;
@@ -116,7 +116,7 @@ int DepthImageGen() try
 
 			//cv::Mat image(cv::Size(depth.get_width(), depth.get_height()), CV_8UC1, (void*)depth.get_data(), cv::Mat::AUTO_STEP);
 			cv::Mat image1(color.get_height(), color.get_width(), CV_8UC3, (void *)(color.get_data()), cv::Mat::AUTO_STEP);
-			cv::cvtColor(image1, image1, cv::COLOR_BGR2RGB);
+			cv::cvtColor(image1, image1, CV_BGR2RGB);
 			cv::imwrite(color_file.str(), image1);
 			
 
@@ -145,7 +145,7 @@ int DepthImageGen() try
 			points = pc.calculate(depth);
 			points.export_to_ply(pc_file.str(), fs.get_color_frame());
 
-			cv::cvtColor(image1, image1, cv::COLOR_BGR2RGB);
+			cv::cvtColor(image1, image1, CV_BGR2RGB);
 
 			cv::imshow("out", image1);
 			cv::waitKey(1);

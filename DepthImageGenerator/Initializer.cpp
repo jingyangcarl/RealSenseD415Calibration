@@ -116,7 +116,11 @@ void Initializer::CameraInitialization() {
 		cout << "Initialize camera " << serialIndexMap.at(serialNumber) << endl;
 
 		// set configuration
-		config.enable_all_streams();
+		config.enable_stream(rs2_stream::RS2_STREAM_COLOR, 640, 480, RS2_FORMAT_RGB8, 30);
+		this->enable_stream_color = true;
+		config.enable_stream(rs2_stream::RS2_STREAM_DEPTH, 640, 480, RS2_FORMAT_Z16, 30);
+		this->enable_stream_depth = true;
+		//config.enable_all_streams();
 		config.enable_device(serialNumber);
 
 		// start the pipeline
@@ -125,4 +129,16 @@ void Initializer::CameraInitialization() {
 		pipelines.push_back(pipeline);
 		colorizers[serialIndexMap[serialNumber]] = colorizer();
 	}
+}
+
+bool Initializer::isEnableStreamColor() const {
+	return enable_stream_color;
+}
+
+bool Initializer::isEnableStreamDepth() const {
+	return enable_stream_depth;
+}
+
+bool Initializer::isEnableStreamInfrared() const {
+	return enable_stream_infrared;
 }

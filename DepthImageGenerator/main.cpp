@@ -69,17 +69,17 @@ int main() try {
 
 				// print frames
 				cout << "current camera: " << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << endl;
-				cout << "colorFrame: " << colorFrame.get_profile().unique_id() << endl;
-				cout << "depthFrame: " << depthFrame.get_profile().unique_id() << endl;
-				cout << "infraredFrame_1: " << infraredFrame_1.get_profile().unique_id() << endl;
-				cout << "infraredFrame_2: " << infraredFrame_2.get_profile().unique_id() << endl;
+				cout << "colorFrame: " << (initializer.isEnableStreamColor() ? colorFrame.get_profile().unique_id() : -1) << endl;
+				cout << "depthFrame: " << (initializer.isEnableStreamDepth() ? depthFrame.get_profile().unique_id() : -1) << endl;
+				cout << "infraredFrame_1: " << (initializer.isEnableStreamInfrared() ? infraredFrame_1.get_profile().unique_id() : -1) << endl;
+				cout << "infraredFrame_2: " << (initializer.isEnableStreamInfrared() ? infraredFrame_2.get_profile().unique_id() : -1) << endl;
 
 				// save frame
 				if (framesetCount % (frameRate*deviceSize) < deviceSize) {
 
 					// save color image
 					stringstream colorImagePath;
-					colorImagePath << "./Generated/colorImage_" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << ".png";
+					colorImagePath << "./Generated/colorImage_cam" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << ".png";
 					Mat colorImage(Size(colorFrame.get_width(), colorFrame.get_height()), CV_8UC3, (void*)colorFrame.get_data(), Mat::AUTO_STEP);
 					cv::cvtColor(colorImage, colorImage, cv::COLOR_BGR2RGB);
 					cv::imwrite(colorImagePath.str(), colorImage);
@@ -91,7 +91,7 @@ int main() try {
 
 					// save depth image
 					stringstream depthImagePath;
-					depthImagePath << "./Generated/depthImage_" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << ".tiff";
+					depthImagePath << "./Generated/depthImage_cam" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << ".tiff";
 					Mat depthImage(Size(depthFrame.get_width(), depthFrame.get_height()), CV_16UC1, (void*)depthFrame.get_data(), Mat::AUTO_STEP);
 					cv::imwrite(depthImagePath.str(), depthImage);
 

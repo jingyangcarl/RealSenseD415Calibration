@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="calibration.cpp" />
     <ClCompile Include="Depth2PointCloud.cpp" />
+    <ClCompile Include="DepthImageGen.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
