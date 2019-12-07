@@ -123,6 +123,25 @@ void Initializer::CameraInitialization() {
 		//config.enable_all_streams();
 		config.enable_device(serialNumber);
 
+		/*
+		For 4 camera straming with 640*480*30 RGB8 channels and 640*480*30 Z16 channel,
+		streaming takes up (640*480*24*30 + 640*480*16*30) * 4 = 1,474,560,000 bps
+		streaming with rendering can be processed in real time with i7-7800x CPU 3.50 GHz @ 9% - 11% and GTX TITAN X GPU 3D @ 11% - 17%;
+		streaming without rendering can be processed in real time with i7-7800x CPU 3.50 GHz @ 6% - 8%;
+
+		For 4 camera streaming with 1280*720*30 RGB8 channels and 640*480*30 Z16 channel, 
+		streaming takes up (1280*720*24*30 + 640*480*16*30) * 4 = 3,244,032,000 bps
+		streaming with rendering can be processed in real-time with i7-7800x CPU 3.50 GHz @ 12% - 14% and GTX TITAN X GPU 3D @ 18% - 30%;
+		streaming without rendering can be processed in real-time with i7-7800x CPU 3.50 GHz @ 10% - 12%;
+
+		For 4 camera streaming with 1280*720*30 RGB8 channels and 848*480*30 Z16 channel,
+		streaming takes up (1280*720*24*30 + 848*480*16*30) * 4 = 3,435,724,800 bps
+		streaming with rendering can be processed almost in real time with i7-7800x CPU 3.50 GHz @ 13% - 15% and GTX TITAN X GPU 3D @ 23% - 35%;
+		streaming without rendering cannot be tested;
+
+		According to the experiment above, the available USB 3.0 bandwith is 3.07 Gbps
+		*/
+
 		// start the pipeline
 		pipeline.start(config);
 		cout << "Camera [" << serialNumber << "] streaming pipeline is starting..." << endl;
