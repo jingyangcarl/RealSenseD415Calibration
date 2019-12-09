@@ -144,9 +144,9 @@ void Initializer::CameraInitialization() {
 
 		// start the pipeline
 		pipeline.start(config);
-		cout << "Camera [" << serialNumber << "] streaming pipeline is starting..." << endl;
 		pipelines.push_back(pipeline);
 		colorizers[serialIndexMap[serialNumber]] = colorizer();
+		cout << "Camera [" << serialNumber << "] streaming pipeline is starting..." << endl;
 	}
 }
 
