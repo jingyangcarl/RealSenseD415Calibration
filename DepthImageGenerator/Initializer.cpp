@@ -120,6 +120,10 @@ void Initializer::CameraInitialization() {
 		this->enable_stream_color = true;
 		config.enable_stream(rs2_stream::RS2_STREAM_DEPTH, 640, 480, RS2_FORMAT_Z16, 30);
 		this->enable_stream_depth = true;
+		config.enable_stream(rs2_stream::RS2_STREAM_INFRARED, 1, 640, 480, RS2_FORMAT_Y8, 30);
+		config.enable_stream(rs2_stream::RS2_STREAM_INFRARED, 2, 640, 480, RS2_FORMAT_Y8, 30);
+		this->enable_stream_infrared = true;
+
 		//config.enable_all_streams();
 		config.enable_device(serialNumber);
 

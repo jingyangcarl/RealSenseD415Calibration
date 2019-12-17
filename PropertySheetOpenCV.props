@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\world\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\viz\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\videostab\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\videoio\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\video\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\ts\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\superres\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\stitching\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\shape\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\photo\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\objdetect\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\ml\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\imgproc\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\imgcodecs\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\highgui\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\flann\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\features2d\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\dnn\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\core\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\modules\calib3d\include;C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Intel RealSense SDK 2.0\third-party\opencv-3.4\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Link>
+      <AdditionalDependencies>opencv_calib3d341.lib;opencv_core341.lib;opencv_dnn341.lib;opencv_features2d341.lib;opencv_flann341.lib;opencv_highgui341.lib;opencv_imgcodecs341.lib;opencv_imgproc341.lib;opencv_ml341.lib;opencv_objdetect341.lib;opencv_photo341.lib;opencv_shape341.lib;opencv_stitching341.lib;opencv_superres341.lib;opencv_video341.lib;opencv_videoio341.lib;opencv_videostab341.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
