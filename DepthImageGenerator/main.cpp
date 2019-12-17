@@ -75,11 +75,13 @@ int main() try {
 				cout << "infraredFrame_2: " << (initializer.isEnableStreamInfrared() ? infraredFrame_2.get_profile().unique_id() : -1) << endl;
 
 				// save frame
-				if ((framesetCount % (frameRate*deviceSize)) < deviceSize) {
+				int saveCount = framesetCount % (frameRate*deviceSize);
+				int saveIndex = framesetCount / (frameRate*deviceSize);
+				if (saveCount < deviceSize) {
 
 					// save color image
 					stringstream colorImagePath;
-					colorImagePath << "./Generated/colorImage_cam" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << "_" << framesetCount%2 << ".png";
+					colorImagePath << "./Generated/colorImage_cam" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << "_" << saveIndex %2 << ".png";
 					Mat colorImage(Size(colorFrame.get_width(), colorFrame.get_height()), CV_8UC3, (void*)colorFrame.get_data(), Mat::AUTO_STEP);
 					cv::cvtColor(colorImage, colorImage, cv::COLOR_BGR2RGB);
 					cv::imwrite(colorImagePath.str(), colorImage);
@@ -91,7 +93,7 @@ int main() try {
 
 					// save depth image
 					stringstream depthImagePath;
-					depthImagePath << "./Generated/depthImage_cam" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << "_" << framesetCount % 2 << ".tiff";
+					depthImagePath << "./Generated/depthImage_cam" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << "_" << saveIndex % 2 << ".tiff";
 					Mat depthImage(Size(depthFrame.get_width(), depthFrame.get_height()), CV_16UC1, (void*)depthFrame.get_data(), Mat::AUTO_STEP);
 					cv::imwrite(depthImagePath.str(), depthImage);
 
@@ -100,19 +102,19 @@ int main() try {
 					cout << depthImagePath.str() << " saved at " << ctime(&end);
 
 					// save inferred image
-					stringstream inferredImagePath1;
-					stringstream inferredImagePath2;
-					inferredImagePath1 << "./Generated/inferredImage1_cam" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << "_" << framesetCount % 2 << ".png";
-					inferredImagePath2 << "./Generated/inferredImage2_cam" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << "_" << framesetCount % 2 << ".png";
-					Mat infreredImage1(Size(depthFrame.get_width(), depthFrame.get_height()), CV_8UC1, (void*)infraredFrame_1.get_data(), Mat::AUTO_STEP);
-					Mat infreredImage2(Size(depthFrame.get_width(), depthFrame.get_height()), CV_8UC1, (void*)infraredFrame_2.get_data(), Mat::AUTO_STEP);
-					cv::imwrite(inferredImagePath1.str(), infreredImage1);
-					cv::imwrite(inferredImagePath2.str(), infreredImage2);
+					stringstream infraredImagePath1;
+					stringstream infraredImagePath2;
+					infraredImagePath1 << "./Generated/inferredImage1_cam" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << "_" << saveIndex % 2 << ".png";
+					infraredImagePath2 << "./Generated/inferredImage2_cam" << serialIndexMap[pipeline.get_active_profile().get_device().get_info(rs2_camera_info::RS2_CAMERA_INFO_SERIAL_NUMBER)] << "_" << saveIndex % 2 << ".png";
+					Mat infraredImage1(Size(depthFrame.get_width(), depthFrame.get_height()), CV_8UC1, (void*)infraredFrame_1.get_data(), Mat::AUTO_STEP);
+					Mat infraredImage2(Size(depthFrame.get_width(), depthFrame.get_height()), CV_8UC1, (void*)infraredFrame_2.get_data(), Mat::AUTO_STEP);
+					cv::imwrite(infraredImagePath1.str(), infraredImage1);
+					cv::imwrite(infraredImagePath2.str(), infraredImage2);
 
 					// print
 					end = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-					cout << inferredImagePath1.str() << "saved at" << ctime(&end);
-					cout << inferredImagePath2.str() << "saved at" << ctime(&end);
+					cout << infraredImagePath1.str() << "saved at" << ctime(&end);
+					cout << infraredImagePath2.str() << "saved at" << ctime(&end);
 
 					cout << "\x1b[A\x1b[A\x1b[A\x1b[A";
 				}

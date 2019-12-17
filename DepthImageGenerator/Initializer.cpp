@@ -116,6 +116,7 @@ void Initializer::CameraInitialization() {
 		cout << "Initialize camera " << serialIndexMap.at(serialNumber) << endl;
 
 		// set configuration
+		//config.enable_stream(rs2_stream::RS2_STREAM_COLOR, 1280, 720, RS2_FORMAT_RGB8, 30);
 		config.enable_stream(rs2_stream::RS2_STREAM_COLOR, 640, 480, RS2_FORMAT_RGB8, 30);
 		this->enable_stream_color = true;
 		config.enable_stream(rs2_stream::RS2_STREAM_DEPTH, 640, 480, RS2_FORMAT_Z16, 30);
